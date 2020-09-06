@@ -19,27 +19,25 @@ RUN /tmp/scripts/install_php_extensions.sh
 RUN /tmp/scripts/install_software.sh
 
 
-# set up ssh
+# set up .ssh
 RUN apt-get update -yqq && apt-get install -yqq openssh-server \
     && mkdir /var/run/sshd \
 ;
 USER ${APP_USER}
-
-COPY ${SERVICE_DIR}/ssh/insecure_id_rsa.pub /tmp/insecure_id_rsa.pub
-
+COPY ${SERVICE_DIR}/.ssh/insecure_id_rsa.pub /tmp/insecure_id_rsa.pub
 RUN mkdir -p ~/.ssh \
-&& cat /tmp/insecure_id_rsa.pub >> ~/.ssh/authorized_keys \
-&& chown -R ${APP_USER}: ~/.ssh \
-&& chmod 700 ~/.ssh \
-&& chmod 600 ~/.ssh/authorized_keys \
+ && cat /tmp/insecure_id_rsa.pub >> ~/.ssh/authorized_keys \
+ && chown -R ${APP_USER}: ~/.ssh \
+ && chmod 700 ~/.ssh \
+ && chmod 600 ~/.ssh/authorized_keys \
 ;
 
 USER root
-COPY ./.shared/config/php/conf.d/* /usr/local/etc/php/conf.d/
+COPY ./.shared/config/php/conf.d/*  /usr/local/etc/php/conf.d/
 
 # workdir
 ARG APP_CODE_PATH="/var/www/current"
-WORKDIR "${APP_CODE_PATH}"
+WORKDIR "$APP_CODE_PATH"
 
 # entrypoint
 RUN mkdir -p /bin/docker-entrypoint/ \
