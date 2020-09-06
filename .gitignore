@@ -127,4 +127,6 @@ DerivedData/
 ## Gcc Patch
 /*.gcno
 
-app/html/
+.docker/app/html/
+
+.docker/.env
