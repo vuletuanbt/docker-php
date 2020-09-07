@@ -35,6 +35,20 @@ RUN mkdir -p ~/.ssh \
 USER root
 COPY ./.shared/config/php/conf.d/*  /usr/local/etc/php/conf.d/
 
+# set up xdebug
+RUN echo "xdebug.remote_connect_back=0" | sudo tee -a /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini > /dev/null \
+    && echo "xdebug.remote_host=host.docker.internal" | sudo tee -a /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini > /dev/null \
+    && echo "xdebug.remote_port=9000" | sudo tee -a /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini > /dev/null \
+    && echo "xdebug.idekey=PHPSTORM" | sudo tee -a /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini > /dev/null \
+    && echo "xdebug.remote_autostart=1" | sudo tee -a /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini > /dev/null \
+    && echo "xdebug.cli_color=1" | sudo tee -a /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini > /dev/null \
+    && echo "xdebug.profiler_enable=1" | sudo tee -a /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini > /dev/null \
+    && echo "xdebug.profiler_output_dir=\"/var/www/current/profiling\"" | sudo tee -a /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini > /dev/null \
+    && echo "xdebug.remote_enable=1" | sudo tee -a /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini > /dev/null \
+    && echo "xdebug.remote_log=\"/var/www/current/xdebug.log\"" | sudo tee -a /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini > /dev/null \
+    && echo "xdebug.var_display_max_children=-1" | sudo tee -a /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini > /dev/null \
+    && echo "xdebug.var_display_max_depth=-1" | sudo tee -a /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini > /dev/null \;
+
 # workdir
 ARG APP_CODE_PATH="/var/www/current"
 WORKDIR "$APP_CODE_PATH"

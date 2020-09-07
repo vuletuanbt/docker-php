@@ -130,3 +130,4 @@ DerivedData/
 .docker/app/html/
 
 .docker/.env
+xdebug.log
