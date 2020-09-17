@@ -1,5 +1,5 @@
-ARG TARGET_PHP_VERSION=7.3
-FROM php:${TARGET_PHP_VERSION}-fpm
+ARG PHP_VERSION=7.3
+FROM php:${PHP_VERSION}-fpm
 
 ARG SERVICE_DIR="./php-fpm"
 COPY ./.shared/scripts/ /tmp/scripts/
