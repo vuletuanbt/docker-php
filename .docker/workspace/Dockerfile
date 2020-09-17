@@ -52,6 +52,33 @@ RUN echo "xdebug.remote_connect_back=0" | sudo tee -a /usr/local/etc/php/conf.d/
 # install composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
 
+USER ${APP_USER}
+# nvm environment variables
+ENV NVM_DIR /home/${APP_USER}/.nvm
+ARG NODE_VERSION=stable
+
+# install nvm
+RUN mkdir -p $NVM_DIR \
+    && curl --silent -o- https://raw.githubusercontent.com/creationix/nvm/master/install.sh | bash \
+    && . $NVM_DIR/nvm.sh \
+    && nvm install ${NODE_VERSION} \
+    && nvm use ${NODE_VERSION} \
+    && nvm alias ${NODE_VERSION} \
+
+
+RUN echo "" >> ~/.bashrc && \
+    echo 'export NVM_DIR="$HOME/.nvm"' >> ~/.bashrc && \
+    echo '[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm' >> ~/.bashrc \
+;
+# Add PATH for node
+ENV PATH $PATH:/home/${APP_USER}/.node-bin
+
+USER root
+
+RUN echo "" >> ~/.bashrc && \
+    echo 'export NVM_DIR="/home/${APP_USER}/.nvm"' >> ~/.bashrc && \
+    echo '[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm' >> ~/.bashrc \
+;
 # workdir
 ARG APP_CODE_PATH="/var/www/current"
 WORKDIR "$APP_CODE_PATH"

@@ -15,6 +15,7 @@ services:
         - APP_USER_ID=${APP_USER_ID}
         - TARGET_PHP_VERSION=${PHP_VERSION}
         - TZ=${TIMEZONE}
+        - NODE_VERSION=${NODE_VERSION}
     ports:
       - "${WORKSPACE_HOST_SSH_PORT}:22"
     tty: true
