@@ -30,10 +30,10 @@ RUN /tmp/scripts/modify_config.sh /etc/nginx/nginx.conf \
     ;
 
 COPY ${SERVICE_DIR}/sites-available/* /etc/nginx/sites-available/
-ARG APP_CODE_PATH
+ARG WORKSPACE_PATH
 RUN /tmp/scripts/modify_config.sh /etc/nginx/sites-available/default.conf \
     "__NGINX_ROOT" \
-    "${APP_CODE_PATH}" \
+    "${WORKSPACE_PATH}" \
     ;
 # workdir
 WORKDIR /etc/nginx/

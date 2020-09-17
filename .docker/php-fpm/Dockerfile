@@ -43,8 +43,8 @@ RUN echo "xdebug.remote_connect_back=0" | sudo tee -a /usr/local/etc/php/conf.d/
     && echo "xdebug.var_display_max_children=-1" | sudo tee -a /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini > /dev/null \
     && echo "xdebug.var_display_max_depth=-1" | sudo tee -a /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini > /dev/null \;
 
-ARG APP_CODE_PATH="/var/www/current"
-WORKDIR "$APP_CODE_PATH}"
+ARG WORKSPACE_PATH="/var/www/current"
+WORKDIR "$WORKSPACE_PATH}"
 
 RUN mkdir -p /bin/docker-entrypoint/ \
     && cp /tmp/scripts/docker-entrypoint/* /bin/docker-entrypoint/ \

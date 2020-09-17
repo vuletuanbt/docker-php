@@ -80,8 +80,8 @@ RUN echo "" >> ~/.bashrc && \
     echo '[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm' >> ~/.bashrc \
 ;
 # workdir
-ARG APP_CODE_PATH="/var/www/current"
-WORKDIR "$APP_CODE_PATH"
+ARG WORKSPACE_PATH="/var/www/current"
+WORKDIR "$WORKSPACE_PATH"
 
 # entrypoint
 RUN mkdir -p /bin/docker-entrypoint/ \

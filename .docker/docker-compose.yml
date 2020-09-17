@@ -9,7 +9,7 @@ services:
       context: .
       dockerfile: ./workspace/Dockerfile
       args:
-        - APP_CODE_PATH=${APP_CODE_PATH_CONTAINER}
+        - WORKSPACE_PATH=${WORKSPACE_PATH_CONTAINER}
         - APP_GROUP=${APP_GROUP}
         - APP_GROUP_ID=${APP_GROUP_ID}
         - APP_USER=${APP_USER}
@@ -21,7 +21,7 @@ services:
       - "${WORKSPACE_HOST_SSH_PORT}:22"
     tty: true
     volumes:
-      - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}
+      - ${WORKSPACE_PATH_HOST}:${WORKSPACE_PATH_CONTAINER}
     networks:
       - backend
 ### nginx ################################################
@@ -30,7 +30,7 @@ services:
       context: .
       dockerfile: ./nginx/Dockerfile
       args:
-        - APP_CODE_PATH=${APP_CODE_PATH_CONTAINER}
+        - WORKSPACE_PATH=${WORKSPACE_PATH_CONTAINER}
         - APP_GROUP=${APP_GROUP}
         - APP_GROUP_ID=${APP_GROUP_ID}
         - APP_USER=${APP_USER}
@@ -42,7 +42,7 @@ services:
       - "${NGINX_HOST_HTTPS_PORT}:443"
     tty: true
     volumes:
-      - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}
+      - ${WORKSPACE_PATH_HOST}:${WORKSPACE_PATH_CONTAINER}
     networks:
       backend:
         aliases:
@@ -53,7 +53,7 @@ services:
       context: .
       dockerfile: ./php-fpm/Dockerfile
       args:
-        - APP_CODE_PATH=${APP_CODE_PATH_CONTAINER}
+        - WORKSPACE_PATH=${WORKSPACE_PATH_CONTAINER}
         - APP_GROUP=${APP_GROUP}
         - APP_GROUP_ID=${APP_GROUP_ID}
         - APP_USER=${APP_USER}
@@ -62,7 +62,7 @@ services:
         - TZ=${TIMEZONE}
     tty: true
     volumes:
-      - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}
+      - ${WORKSPACE_PATH_HOST}:${WORKSPACE_PATH_CONTAINER}
     networks:
       - backend
 ### MySQL ################################################
