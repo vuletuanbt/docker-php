@@ -3,6 +3,7 @@ networks:
   backend:
     driver: ${NETWORKS_DRIVER}
 services:
+### workspace ################################################
   workspace:
     build:
       context: .
@@ -23,6 +24,7 @@ services:
       - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}
     networks:
       - backend
+### nginx ################################################
   nginx:
     build:
       context: .
@@ -45,6 +47,7 @@ services:
       backend:
         aliases:
           - ${APP_HOST}
+### PHP fpm ################################################
   php-fpm:
     build:
       context: .
@@ -60,5 +63,24 @@ services:
     tty: true
     volumes:
       - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}
+    networks:
+      - backend
+### MySQL ################################################
+  mysql:
+    build:
+      context: ./mysql
+      args:
+        - MYSQL_VERSION=${MYSQL_VERSION}
+    environment:
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - TZ=${WORKSPACE_TIMEZONE}
+    volumes:
+      - ${DATA_PATH_HOST}/mysql:/var/lib/mysql
+      - ${MYSQL_ENTRYPOINT_INITDB}:/docker-entrypoint-initdb.d
+    ports:
+      - "${MYSQL_PORT}:3306"
     networks:
       - backend
