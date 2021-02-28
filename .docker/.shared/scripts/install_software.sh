@@ -1,6 +1,14 @@
 #!/bin/sh
 
-apt-get update -yqq && apt-get install -yqq \
+COMPOSE_ENVIRONMENT=$1
+
+# develop mode defaults
+if [ -z "${COMPOSE_ENVIRONMENT}" ]; then
+    echo "Running on production do not need to install develop software";
+    exit;
+fi
+
+apk update -yqq && apk add -yqq \
     curl \
     dnsutils \
     gdb \

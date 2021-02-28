@@ -1,5 +1,5 @@
 ARG TARTET_PHP_VERSION=7.3
-FROM php:${TARTET_PHP_VERSION}-cli
+FROM php:${TARTET_PHP_VERSION}-cli-alpine
 
 ARG SERVICE_DIR="./workspace"
 COPY ./.shared/scripts/ /tmp/scripts/
@@ -14,13 +14,18 @@ ARG APP_GROUP=www-data
 ARG APP_USER_ID=1000
 ARG APP_GROUP_ID=1000
 
+RUN set -eux && apk --update add --no-cache sudo bash coreutils wget curl ;
+
 RUN /tmp/scripts/create_user.sh ${APP_USER} ${APP_GROUP} ${APP_USER_ID} ${APP_GROUP_ID}
 RUN /tmp/scripts/install_php_extensions.sh
 RUN /tmp/scripts/install_software.sh
 
+# set up bash
+RUN apk add --update bash && rm -rf /var/cache/apk/* \ ;
+
 
 # set up .ssh
-RUN apt-get update -yqq && apt-get install -yqq openssh-server \
+RUN apk update -yqq && apk add -yqq openssh-server \
     && mkdir /var/run/sshd \
 ;
 USER ${APP_USER}
@@ -63,7 +68,7 @@ RUN mkdir -p $NVM_DIR \
     && . $NVM_DIR/nvm.sh \
     && nvm install ${NODE_VERSION} \
     && nvm use ${NODE_VERSION} \
-    && nvm alias ${NODE_VERSION} \
+    && nvm alias ${NODE_VERSION} \ ;
 
 
 RUN echo "" >> ~/.bashrc && \

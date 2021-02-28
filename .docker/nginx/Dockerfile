@@ -1,4 +1,4 @@
-FROM nginx:latest
+FROM nginx:stable-alpine
 
 ARG SERVICE_DIR="./nginx"
 COPY ./.shared/scripts/ /tmp/scripts/

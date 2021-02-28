@@ -70,6 +70,10 @@ docker-prune: ## Remove unused docker resources via 'docker system prune -a -f -
 docker-up: docker-init ## Start all docker containers. To only start one container, use CONTAINER=<service>
 	$(DOCKER_COMPOSE) up -d $(CONTAINER)
 
+.PHONY: docker-exec
+docker-exec: docker-init ## Start all docker containers. To only start one container, use CONTAINER=<service>
+	$(DOCKER_COMPOSE) exec --user=$(RUN_IN_DOCKER_USER) $(CONTAINER) bash
+
 .PHONY: docker-down
 docker-down: docker-init ## Stop all docker containers. To only stop one container, use CONTAINER=<service>
 	$(DOCKER_COMPOSE) down $(CONTAINER)

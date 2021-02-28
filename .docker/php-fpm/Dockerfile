@@ -1,5 +1,5 @@
 ARG PHP_VERSION=7.3
-FROM php:${PHP_VERSION}-fpm
+FROM php:${PHP_VERSION}-fpm-alpine
 
 ARG SERVICE_DIR="./php-fpm"
 COPY ./.shared/scripts/ /tmp/scripts/
